@@ -13,6 +13,23 @@ An IEC 61131-3 compliant PLC program written in Ladder Diagram (LD) for an autom
 
 ---
 
+## Circuit Diagrams & Logic Screenshots
+
+### Variable Table & Debugger Window
+![Variables Table](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/VARIABLES%20TABLE.PNG)
+![Debugger Window](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/DEBUGGER%20WINDOW.PNG)
+
+### Ladder Logic Rungs
+![Rung 1-2](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNG%201-%20RUNG%202.PNG)
+![Rung 3-4](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNG%203-4.PNG)
+![Rung 4-5](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNG%204-5.PNG)
+![Rung 6-7](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNG%206-7.PNG)
+![Rung 8-9](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNG%208-9.PNG)
+![Rung 9-10](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNG%209-10.PNG)
+
+### Runtime Execution
+![Running Program](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNNING%20PROGRAM.PNG)---
+
 ## I/O Mapping
 
 | Signal Name | Address | Type | Description |
