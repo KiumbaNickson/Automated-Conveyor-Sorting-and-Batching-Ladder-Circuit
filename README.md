@@ -1,4 +1,4 @@
-# Automated Conveyor Checkweigher and Batching System
+# Automated Conveyor Sorting and Batching System
 
 An IEC 61131-3 compliant PLC program written in Ladder Diagram (LD) for an automated conveyor system. The system performs real-time weight checks, pneumatically rejects out-of-spec products, and tracks batch quantities with automated reset cycles.
 
