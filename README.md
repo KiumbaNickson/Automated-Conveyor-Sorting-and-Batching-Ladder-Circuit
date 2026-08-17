@@ -63,5 +63,11 @@ An IEC 61131-3 compliant PLC program written in Ladder Diagram (LD) for an autom
 
 * **Task Name:** `task1`
 * **Execution Interval:** 20 ms
+---
+
+## License & Copyright
+
+© 2026 Kiumba Nickson. All Rights Reserved.  
+This project and its accompanying assets are proprietary. No part of this repository may be reproduced, distributed, or modified without prior written authorization.
 * **Priority Level:** 1
 * **Target Hardware:** OpenPLC Runtime Engine / PLCOpen XML Compatible Controllers
