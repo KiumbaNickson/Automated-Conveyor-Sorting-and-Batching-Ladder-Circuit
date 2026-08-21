@@ -29,6 +29,22 @@ An IEC 61131-3 compliant PLC program written in Ladder Diagram (LD) for an autom
 
 ### Runtime Execution
 ![Running Program](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNNING%20PROGRAM.PNG)---
+---
+
+## HMI & SCADA Interface (Node-RED)
+
+To provide operational oversight and local control, a dynamic web-based Human-Machine Interface (HMI) was developed using **Node-RED**. The interface communicates directly with the OpenPLC Modbus TCP/IP server interface over local Ethernet.
+
+### HMI Features & Capabilities
+* **Live Operational Dashboard:** Real-time visual feedback for conveyor system power state (`START`/`STOP` status) and running indicators.
+* **Process Monitoring:** Digital gauge display tracking live `ACTUAL_WEIGHT` feedback alongside real-time batch counter progress (`CTU1`).
+* **Manual Override & Alarm Controls:** Dedicated control buttons for manual fault resets and conveyor emergency stops.
+* **Reject Diagnostics:** Visual alarm triggers indicating weight threshold violations (`MIN_WEIGHT` / `MAX_WEIGHT`) and quality reject events.
+
+### HMI Dashboard Overview
+![Node-RED Dashboard](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/HMI_DASHBOARD.PNG)
+
+> **Note:** Replace `HMI_DASHBOARD.PNG` with the exact filename of your Node-RED screenshot inside your `Images` folder.
 
 ## I/O Mapping
 
