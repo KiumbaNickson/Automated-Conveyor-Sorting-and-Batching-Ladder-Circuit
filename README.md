@@ -6,10 +6,12 @@ An IEC 61131-3 compliant PLC program written in Ladder Diagram (LD) for an autom
 
 ## System Architecture & Functionality
 
-* **Motor Latch & Safety Circuit:** Uses a standard seal-in contact logic for motor control. Requires `START_PB` (%IX0.0) activation along with closed `STOP_PB` (%IX0.1), `ESTOP_OK` (%IX0.2), and `OVRLOAD_OK` (%IX0.3) safety interlocks to drive `MOTOR_RUN` (%QX0.0) and status light `LAMP_RUN` (%QX0.1).
+* **Motor Latch & Safety Circuit:** Uses a standard seal-in contact logic for motor control. Requires `START_PB` (%IX0.0) or remote `HMI_START_PB` activation along with closed `STOP_PB` (%IX0.1), `ESTOP_OK` (%IX0.2), and `OVRLOAD_OK` (%IX0.3) safety interlocks to drive `MOTOR_RUN` (%QX0.0) and status light `LAMP_RUN` (%QX0.1).
 * **Analog Weight Verification:** Evaluates `ACTUAL_WEIGHT` against `MIN_WEIGHT` (49.95 kg) and `MAX_WEIGHT` (50.10 kg) using `GE` and `LE` comparison blocks. A valid evaluation sets the `WEIGHT_OK` flag.
 * **Rejection Timing:** Triggers `SR0` latch when `QUALITY_SENSOR` or `WEIGHT_OK` flags fail during product presence. Utilizes a 3-second delay (`TON1`) to position the defective item at the rejector, energizes `REJECT_SELENOID` (%QX0.2) for a 2-second pulse (`TON2`), and resets the sequence.
 * **Batch Counter & Auto Reset:** Uses `CTU1` to count passing products that satisfy all quality and weight checks. Upon reaching a preset value of 5 items, `BATCH_COMPLETE_LAMP` illuminates. A 5-second timer (`TON3`) automatically clears the counter to initiate the next batch cycle.
+* **HMI & Modbus TCP Communication Interface:** Establishes real-time telemetry and supervisory control using a Node-RED HMI dashboard. Inter-process communication is handled via Modbus TCP over local software loopback (`127.0.0.1:5020`), serving live scale data, fault diagnostics, and remote start/stop operations.
+
 
 ---
 
@@ -27,31 +29,12 @@ An IEC 61131-3 compliant PLC program written in Ladder Diagram (LD) for an autom
 ![Rung 8-9](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNG%208-9.PNG)
 ![Rung 9-10](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNG%209-10.PNG)
 
-### Runtime Execution
-![Running Program](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNNING%20PROGRAM.PNG)---
-------
-## HMI & SCADA Interface (Node-RED)
-To provide operational oversight and real-time process monitoring, a dynamic web-based Human-Machine Interface (HMI) was developed using **Node-RED**. The interface communicates directly with the OpenPLC Runtime over Ethernet using **Modbus TCP** on port **5020**.
-### HMI Features & Capabilities
-* **Live Operational Dashboard:** Real-time visual feedback for conveyor system power state (`START`/`STOP` status) and running indicators.
-* **Process Monitoring:** Digital gauge displays tracking live `ACTUAL_WEIGHT` feedback alongside real-time batch counter progress (`CTU1`).
-* **Manual Override & Alarm Controls:** Dedicated control buttons for manual fault resets and conveyor emergency stops.
-* **Reject Diagnostics:** Visual alarm triggers indicating weight threshold violations (`MIN_WEIGHT` / `MAX_WEIGHT`) and quality reject events.
-
-### Modbus TCP Communication Mapping
-
-| Variable Name | PLC Address | Modbus Register | Data Type | Function |
-| :--- | :--- | :--- | :--- | :--- |
-| `ACTUAL_WEIGHT` | %IW0 | Holding Register 40001 | INT/REAL | Live scale feedback to HMI dashboard |
-| `BATCH_COUNT` | %MW0 | Holding Register 40002 | INT | Current completed batch count |
-| `HMI_START_PB` | %IX0.5 | Discrete Input / Coil | BOOL | Remote Start command from Node-RED |
-| `HMI_STOP_PB` | %IX0.6 | Discrete Input / Coil | BOOL | Remote Stop command from Node-RED |
-
-> **Network Note:** Node-RED connects to the OpenPLC Modbus TCP server on `localhost:5020` (or host IP on port `5020`).
----
 ### HMI Dashboard Screenshot
 ![Node-RED Dashboard](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/HMI_DASHBOARD.PNG)
 
+### Runtime Execution
+![Running Program](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNNING%20PROGRAM.PNG)---
+------
 
 ## I/O Mapping
 
@@ -66,6 +49,17 @@ To provide operational oversight and real-time process monitoring, a dynamic web
 | `LAMP_RUN` | %QX0.1 | BOOL | Run Status Indicator Lamp |
 | `REJECT_SELENOID`| %QX0.2 | BOOL | Pneumatic Actuator Output for Rejections |
 
+---
+### Modbus TCP Communication Mapping
+
+| Variable Name | PLC Address | Modbus Register | Data Type | Function |
+| :--- | :--- | :--- | :--- | :--- |
+| `ACTUAL_WEIGHT` | %IW0 | Holding Register 40001 | INT/REAL | Live scale feedback to HMI dashboard |
+| `BATCH_COUNT` | %MW0 | Holding Register 40002 | INT | Current completed batch count |
+| `HMI_START_PB` | %IX0.5 | Discrete Input / Coil | BOOL | Remote Start command from Node-RED |
+| `HMI_STOP_PB` | %IX0.6 | Discrete Input / Coil | BOOL | Remote Stop command from Node-RED |
+
+> **Network Note:** Node-RED connects to the OpenPLC Modbus TCP server on `localhost:5020` (or host IP on port `5020`).
 ---
 
 ## Parameters & Settings
