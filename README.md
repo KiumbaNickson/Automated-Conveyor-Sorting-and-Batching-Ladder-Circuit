@@ -29,22 +29,29 @@ An IEC 61131-3 compliant PLC program written in Ladder Diagram (LD) for an autom
 
 ### Runtime Execution
 ![Running Program](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/RUNNING%20PROGRAM.PNG)---
----
-
+------
 ## HMI & SCADA Interface (Node-RED)
-
-To provide operational oversight and local control, a dynamic web-based Human-Machine Interface (HMI) was developed using **Node-RED**. The interface communicates directly with the OpenPLC Modbus TCP/IP server interface over local Ethernet.
-
+To provide operational oversight and real-time process monitoring, a dynamic web-based Human-Machine Interface (HMI) was developed using **Node-RED**. The interface communicates directly with the OpenPLC Runtime over Ethernet using **Modbus TCP** on port **5020**.
 ### HMI Features & Capabilities
 * **Live Operational Dashboard:** Real-time visual feedback for conveyor system power state (`START`/`STOP` status) and running indicators.
-* **Process Monitoring:** Digital gauge display tracking live `ACTUAL_WEIGHT` feedback alongside real-time batch counter progress (`CTU1`).
+* **Process Monitoring:** Digital gauge displays tracking live `ACTUAL_WEIGHT` feedback alongside real-time batch counter progress (`CTU1`).
 * **Manual Override & Alarm Controls:** Dedicated control buttons for manual fault resets and conveyor emergency stops.
 * **Reject Diagnostics:** Visual alarm triggers indicating weight threshold violations (`MIN_WEIGHT` / `MAX_WEIGHT`) and quality reject events.
 
-### HMI Dashboard Overview
+### Modbus TCP Communication Mapping
+
+| Variable Name | PLC Address | Modbus Register | Data Type | Function |
+| :--- | :--- | :--- | :--- | :--- |
+| `ACTUAL_WEIGHT` | %IW0 | Holding Register 40001 | INT/REAL | Live scale feedback to HMI dashboard |
+| `BATCH_COUNT` | %MW0 | Holding Register 40002 | INT | Current completed batch count |
+| `HMI_START_PB` | %IX0.5 | Discrete Input / Coil | BOOL | Remote Start command from Node-RED |
+| `HMI_STOP_PB` | %IX0.6 | Discrete Input / Coil | BOOL | Remote Stop command from Node-RED |
+
+> **Network Note:** Node-RED connects to the OpenPLC Modbus TCP server on `localhost:5020` (or host IP on port `5020`).
+---
+### HMI Dashboard Screenshot
 ![Node-RED Dashboard](./OPENPLC%20Based%20Automated%20Conveyor%20Checkweigher%20%26%20Defect%20system/Images/HMI_DASHBOARD.PNG)
 
-> **Note:** Replace `HMI_DASHBOARD.PNG` with the exact filename of your Node-RED screenshot inside your `Images` folder.
 
 ## I/O Mapping
 
